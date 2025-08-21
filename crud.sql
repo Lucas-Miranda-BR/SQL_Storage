@@ -19,6 +19,7 @@ id_vendedor int
 create table produto(
 id int primary key auto_increment,
 descricao varchar(50) not null,
+preco decimal(8,2) default 0,
 validade date,
 quantidade int default 0,
 id_marca int,
