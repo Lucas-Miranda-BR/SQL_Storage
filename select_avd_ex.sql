@@ -220,6 +220,8 @@ select pedido.idpedido, pedido.data_pedido, cliente.nome from pedido inner join 
 select pedido.idpedido, pedido.data_pedido, cliente.nome, vendedor.nome from pedido inner join cliente on pedido.idcliente = cliente.idcliente inner join vendedor on pedido.idvendedor = vendedor.idvendedor where pedido.data_pedido like "2016-07-__";
 select produto.nome, produto.preco from produto inner join itens_pedido on produto.idproduto = itens_pedido.idproduto inner join pedido on pedido.idpedido = itens_pedido.idpedido inner join cliente on pedido.idcliente = cliente.idcliente where cliente.idcliente like 1;
 select pedido.idpedido, cliente.nome from pedido right join cliente on pedido.idcliente = cliente.idcliente;
-
--- Todo: EXC 10-12.
+select p.nome, p.preco, c.nome, m.nome from produto p inner join categoria c inner join marca m on p.idcategoria = c.idcategoria and p.idmarca = m.idmarca where p.preco = (select max(preco) from produto);
+select pe.idpedido, pr.preco, c.nome from pedido pe inner join cliente c inner join itens_pedido i inner join produto pr on pe.idcliente = c.idcliente and pe.idpedido = i.idpedido and i.idproduto = pr.idproduto where pr.preco = (select max(preco) from produto);
+select p.idpedido, p.valorpedido as valorTotal, c.nome from pedido p inner join cliente c on p.idcliente = c.idcliente where p.valorpedido = (select max(valorpedido) from pedido);
+select p.idpedido, p.valorpedido as valorTotal, c.nome from pedido p inner join cliente c on p.idcliente = c.idcliente where p.valorpedido = (select min(valorpedido) from pedido);
 
