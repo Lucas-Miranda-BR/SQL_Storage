@@ -211,17 +211,16 @@ INSERT INTO `itens_pedido` VALUES (1,1,2,3,55.50),(2,1,21,10,30.00),(3,1,25,4,38
 /*!40000 ALTER TABLE `itens_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
-select cliente.nome, cliente.email, cidade.nome from cliente inner join cidade on cliente.idcidade = cidade.idcidade;
-select cliente.nome, cliente.email, estado.nome, cidade.nome from cliente inner join estado on cliente.idestado = estado.idestado inner join cidade on cliente.idcidade = cidade.idcidade;
-select cliente.nome, cliente.email, estado.nome, cidade.nome from cliente inner join estado on cliente.idestado = estado.idestado inner join cidade on cliente.idcidade = cidade.idcidade where cliente.nome like "%o%";
-select produto.nome, produto.preco, marca.nome from produto inner join marca on produto.idmarca = marca.idmarca where produto.preco >= 1000 and produto.preco <= 3000;
-select produto.nome, marca.nome, categoria.nome from produto inner join marca on produto.idmarca = marca.idmarca inner join categoria on produto.idcategoria = categoria.idcategoria where produto.nome like "%e%";
+select cliente.nome, cliente.email, cidade.nome as cidade from cliente inner join cidade on cliente.idcidade = cidade.idcidade;
+select cliente.nome, cliente.email, estado.nome as estado, cidade.nome as cidade from cliente inner join estado on cliente.idestado = estado.idestado inner join cidade on cliente.idcidade = cidade.idcidade;
+select cliente.nome, cliente.email, estado.nome as estado, cidade.nome as cidade from cliente inner join estado on cliente.idestado = estado.idestado inner join cidade on cliente.idcidade = cidade.idcidade where cliente.nome like "%o%";
+select produto.nome, produto.preco, marca.nome as marca from produto inner join marca on produto.idmarca = marca.idmarca where produto.preco >= 1000 and produto.preco <= 3000;
+select produto.nome, marca.nome as marca, categoria.nome as categoria from produto inner join marca on produto.idmarca = marca.idmarca inner join categoria on produto.idcategoria = categoria.idcategoria where produto.nome like "%e%";
 select pedido.idpedido, pedido.data_pedido, cliente.nome from pedido inner join cliente on pedido.idcliente = cliente.idcliente where pedido.data_pedido like "2016-08-__";
-select pedido.idpedido, pedido.data_pedido, cliente.nome, vendedor.nome from pedido inner join cliente on pedido.idcliente = cliente.idcliente inner join vendedor on pedido.idvendedor = vendedor.idvendedor where pedido.data_pedido like "2016-07-__";
+select pedido.idpedido, pedido.data_pedido, cliente.nome, vendedor.nome as vendedor_nome from pedido inner join cliente on pedido.idcliente = cliente.idcliente inner join vendedor on pedido.idvendedor = vendedor.idvendedor where pedido.data_pedido like "2016-07-__";
 select produto.nome, produto.preco from produto inner join itens_pedido on produto.idproduto = itens_pedido.idproduto inner join pedido on pedido.idpedido = itens_pedido.idpedido inner join cliente on pedido.idcliente = cliente.idcliente where cliente.idcliente like 1;
 select pedido.idpedido, cliente.nome from pedido right join cliente on pedido.idcliente = cliente.idcliente;
-select p.nome, p.preco, c.nome, m.nome from produto p inner join categoria c inner join marca m on p.idcategoria = c.idcategoria and p.idmarca = m.idmarca where p.preco = (select max(preco) from produto);
+select p.nome, p.preco, c.nome as categoria, m.nome as marca from produto p inner join categoria c inner join marca m on p.idcategoria = c.idcategoria and p.idmarca = m.idmarca where p.preco = (select max(preco) from produto);
 select pe.idpedido, pr.preco, c.nome from pedido pe inner join cliente c inner join itens_pedido i inner join produto pr on pe.idcliente = c.idcliente and pe.idpedido = i.idpedido and i.idproduto = pr.idproduto where pr.preco = (select max(preco) from produto);
 select p.idpedido, p.valorpedido as valorTotal, c.nome from pedido p inner join cliente c on p.idcliente = c.idcliente where p.valorpedido = (select max(valorpedido) from pedido);
 select p.idpedido, p.valorpedido as valorTotal, c.nome from pedido p inner join cliente c on p.idcliente = c.idcliente where p.valorpedido = (select min(valorpedido) from pedido);
-
